@@ -1,4 +1,4 @@
-#include "EncryptedArray.h"
+#include "../libs/HElib/EncryptedArray.h"
 #include <fstream>
 #include <sstream>
 
