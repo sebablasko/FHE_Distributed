@@ -14,9 +14,9 @@ To use its necesary have pre-installed:
 		sudo make install
 1.B.d- This should install GMP into /usr/local
 
-2.- NTL (v6.1 or higher)
-2.1- Download NTL from http://www.shoup.net/ntl/download.html
-2.2- Uncompress and cd into the directory ntl-XXX/src
+2.- NTL (v6.1 or higher, we include v6.2)
+2.1- Navigate to /libs/ntl
+2.2- Uncompress and cd into the directory ntl-6.2.0/src
 2.3- On the command line:
 		./configure NTL_GMP_LIP=on
 		make
@@ -27,4 +27,4 @@ To use its necesary have pre-installed:
 3.1- Navigate to libs/HElib at this project
 3.2- On the command line:
 		make
-3.3- it will output the static library in file fhe.a
+3.3- It will output the static library in file fhe.a
