@@ -4,7 +4,9 @@ Test for distributed evaluation of functions applied with FHE encryption. This p
 To use its necesary have pre-installed:
 
 1. GMP
-  A. For UBUNTU: `sudo apt-get install libgmp3-dev`
+
+  A. For UBUNTU: `sudo apt-get install libgmp3-dev`.
+
   B. For Others OS: 
     1. Download GMP from http://www.gmplib.org
     2. Uncompress and cd into the directory gmp-XXX
