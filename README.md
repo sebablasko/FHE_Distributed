@@ -1,7 +1,9 @@
 # FHE_Distributed
 Test for distributed evaluation of functions applied with FHE encryption. This project studies the evaluation of the application of different functions available in a FHE scheme implemented in the HElib library of shaih and how it works in a distributed schemme.
 
-To use its necesary have pre-installed:
+Dependencies
+------------
+To use its necesary to have pre-installed:
 
 1. GMP
 
