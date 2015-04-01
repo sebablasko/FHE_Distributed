@@ -8,4 +8,4 @@ paramsGenerator: paramsGenerator.cpp
 	$(CC) $(CFLAGS) -o paramsGenerator.run $< $(FHELIB) $(LDLIBS)
 
 clean:
-	rm *.run *.key *.contex
+	rm *.run *.key *.context
