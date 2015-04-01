@@ -28,11 +28,3 @@ To use its necesary have pre-installed:
 3.2. On the command line:
 		make
 3.3. It will output the static library in file fhe.a
-
-
-1. First ordered list item
-2. Another item
-⋅⋅* Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-⋅⋅1. Ordered sub-list
-4. And another item.
