@@ -4,8 +4,8 @@
 #include <sstream>
 
 #define CTXT_FILE "result_cipher"
-#define CONTEXT_FILE "context"
-#define PUBLIC_KEY_FILE "key.pub"
+#define CONTEXT_FILE "context.context"
+#define PUBLIC_KEY_FILE "public.key"
 #define DEBUG 1
 
 class AntennaEncryptor
@@ -47,6 +47,8 @@ class AntennaEncryptor
 
   void InitializeHash(int mnc_)
   {
+    if (DEBUG > 0) std::cout << "AntennaEncryptor: Initializing Hash..."<< std::endl;
+
     string hash_mnc[3] = {"","a_1_hash","a_2_hash" } ;
 
     std::ifstream hash_file(hash_mnc[mnc_].c_str());
@@ -55,6 +57,7 @@ class AntennaEncryptor
     {
       key = lac + " " + cid;
       this->antenna_hash[key] = a + " " + z + " " + pz;
+      if (DEBUG > 1) std::cout << "AntennaEncryptor: Added to Hash: key:"<< key << ", val:" << this->antenna_hash[key] << std::endl;
     }
   }
 
@@ -76,12 +79,13 @@ class AntennaEncryptor
     return code_vector;
   }
 
-public:
-  AntennaEncryptor(int mnc):
-    context(InitializeContext()), public_key(InitializePk()), encrypted_array(InitializeEncryptedArray())
-    {
-      InitializeHash(mnc);
-    }
+  public:
+    AntennaEncryptor(int mnc):
+      context(InitializeContext()), public_key(InitializePk()), encrypted_array(InitializeEncryptedArray())
+      {
+        InitializeHash(mnc);
+        if (DEBUG > 0) std::cout << "AntennaEncryptor Correctly Initialized"<< std::endl;
+      }
   
   FHEcontext get_context()
   {
@@ -105,11 +109,15 @@ public:
 
   int get_antenna_code(int lac, int cid)
   {
-    int a_code, z_code, pz_code;
+
+        int a_code, z_code, pz_code;
     stringstream lac_cid;
     lac_cid << lac << " " << cid;
     string in_code = lac_cid.str();
     string out_code = antenna_hash[in_code];
+
+    if (DEBUG > 1) std::cout << "AntennaEncryptor: get_antenna_code: lac:" << lac << ", cid:" << cid << ", in_code:" << in_code << ", out_code:" << out_code << std::endl;
+
     stringstream ss_lac_cid(out_code);
     
     while(ss_lac_cid >> a_code >> z_code >> pz_code)
@@ -121,11 +129,15 @@ public:
   }
   int get_zone_code(int lac, int cid)
   {
+
     int a_code, z_code, pz_code;
     stringstream lac_cid;
     lac_cid << lac << " " << cid;
     string in_code = lac_cid.str();
     string out_code = antenna_hash[in_code];
+
+    if (DEBUG > 1) std::cout << "AntennaEncryptor: get_zone_code: lac:" << lac << ", cid:" << cid << ", in_code:" << in_code << ", out_code:" << out_code << std::endl;
+
     stringstream ss_lac_cid(out_code);
 
     while(ss_lac_cid >> a_code >> z_code >> pz_code)
@@ -153,17 +165,11 @@ public:
   
   Ctxt EncryptAntenna(int lac, int cid)
   {
-    if (DEBUG > 0)
-    {
-      cerr << "encrypting: " << lac << " " << cid << endl;
-    }
     
     int antenna_code = get_antenna_code(lac,cid);
     int zone_code = get_zone_code(lac,cid);
-    if (DEBUG > 0)
-    {
-      cerr << antenna_code << " " << zone_code << endl;
-    }
+
+    if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptAntenna: lac:" << lac << ", cid:" << cid << ", antenna_code:" << antenna_code << ", zone_code:" << zone_code << std::endl;
 
     Ctxt antenna_cipher(this->public_key);
     PlaintextArray antenna_plaintext(this->encrypted_array);
@@ -177,20 +183,17 @@ public:
     antenna_plaintext.encode(antenna_vector);
     this->encrypted_array.encrypt(antenna_cipher, this->public_key, antenna_plaintext);
     
+    if (DEBUG > 1) std::cout << "AntennaEncryptor: EncryptAntenna: Done" << std::endl;
+
     return antenna_cipher;
   }
 
   Ctxt EncryptZone(int lac, int cid)
   {
-    if (DEBUG > 1)
-    {
-      cerr << "encrypting: " << lac << " " << cid << endl;
-    }
-    
     int antenna_code = get_antenna_code(lac,cid);
     int zone_code = get_zone_code(lac,cid);
-    if (DEBUG > 1)
-      cerr << antenna_code << " " << zone_code << endl;
+
+    if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptZone: lac:" << lac << ", cid:" << cid << ", antenna_code:" << antenna_code << ", zone_code:" << zone_code << std::endl;
 
     Ctxt zone_cipher(this->public_key);
     PlaintextArray zone_plaintext(this->encrypted_array);
@@ -206,6 +209,8 @@ public:
     zone_plaintext.encode(zone_vector);
     this->encrypted_array.encrypt(zone_cipher, this->public_key, zone_plaintext);
     
+    if (DEBUG > 1) std::cout << "AntennaEncryptor: EncryptZone: Done" << std::endl;
+
     return zone_cipher;
 
   }
