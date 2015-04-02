@@ -6,6 +6,7 @@
 #define CTXT_FILE "result_cipher"
 #define CONTEXT_FILE "context.context"
 #define PUBLIC_KEY_FILE "public.key"
+#define HASH_FILES_PATH "../data/"
 #define DEBUG 1
 
 class AntennaEncryptor
@@ -49,14 +50,20 @@ class AntennaEncryptor
   {
     if (DEBUG > 0) std::cout << "AntennaEncryptor: Initializing Hash..."<< std::endl;
 
-    string hash_mnc[3] = {"","a_1_hash","a_2_hash" } ;
+    string hash_mnc[3] = {"","a_1_hash","a_2_hash"};
 
-    std::ifstream hash_file(hash_mnc[mnc_].c_str());
+    string hashFilePath = HASH_FILES_PATH;
+    hashFilePath.append(hash_mnc[mnc_]);
+
+    if (DEBUG > 1) std::cout << "hash file path:" << hashFilePath << std::endl;
+
+    std::ifstream hash_file(hashFilePath.c_str());
     string mnc, lac, cid, a,z,pz, key;
     while (hash_file >> mnc >> lac >> cid >> a >> z >> pz)
     {
       key = lac + " " + cid;
       this->antenna_hash[key] = a + " " + z + " " + pz;
+      
       if (DEBUG > 1) std::cout << "AntennaEncryptor: Added to Hash: key:"<< key << ", val:" << this->antenna_hash[key] << std::endl;
     }
   }
@@ -83,6 +90,7 @@ class AntennaEncryptor
     AntennaEncryptor(int mnc):
       context(InitializeContext()), public_key(InitializePk()), encrypted_array(InitializeEncryptedArray())
       {
+        if (DEBUG > 0) std::cout << "AntennaEncryptor Initializing... "<< std::endl;
         InitializeHash(mnc);
         if (DEBUG > 0) std::cout << "AntennaEncryptor Correctly Initialized"<< std::endl;
       }
@@ -110,7 +118,7 @@ class AntennaEncryptor
   int get_antenna_code(int lac, int cid)
   {
 
-        int a_code, z_code, pz_code;
+    int a_code, z_code, pz_code;
     stringstream lac_cid;
     lac_cid << lac << " " << cid;
     string in_code = lac_cid.str();
