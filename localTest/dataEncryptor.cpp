@@ -49,7 +49,11 @@ int main() {
       zcs << z_cipher;
       int zone = a_encryptor.get_pzone_code(gsm_lac, gsm_cid);
 
-      outfile << "device_id" << _id << "timestamp" << timestamp << "network_type" << network_type << "mnc" << mnc <<  "antenna" << acs.str() << "privzone" << zcs.str() << "zone" << zone << endl;
+      //outfile << "device_id" << _id << "timestamp" << timestamp << "network_type" << network_type << "mnc" << mnc <<  "antenna" << acs.str() << "privzone" << zcs.str() << "zone" << zone << endl;
+
+      //outfile << _id << timestamp << network_type << mnc << acs.str() << zcs.str() << zone << endl;
+
+      outfile << acs.str() << ";";
 
     }
 

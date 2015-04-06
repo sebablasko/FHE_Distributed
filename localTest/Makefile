@@ -10,5 +10,8 @@ paramsGenerator: paramsGenerator.cpp
 dataEncryptor: dataEncryptor.cpp
 	$(CC) $(CFLAGS) -o dataEncryptor.run $< $(FHELIB) $(LDLIBS)
 
-clean:
+dataProcessor: dataProcessor.cpp
+	$(CC) $(CFLAGS) -o dataProcessor.run $< $(FHELIB) $(LDLIBS)
+
+clean:s
 	rm *.run *.key *.context
