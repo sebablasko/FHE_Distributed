@@ -135,6 +135,8 @@ class AntennaEncryptor
     return 0;
       
   }
+
+  /*  get the private zone code, used in ZRotation for the full process operation */
   int get_zone_code(int lac, int cid)
   {
 
@@ -155,6 +157,7 @@ class AntennaEncryptor
     return 0;
   }
 
+  /*  get the public zone code, used in the encryption process, saved as plain text, used to retrieve data from database as filter */
   int get_pzone_code(int lac, int cid)
   {
     int a_code, z_code, pz_code;
