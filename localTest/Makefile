@@ -4,6 +4,8 @@ GMP=-lgmp
 LDLIBS = -L/usr/local/lib -lntl $(GMP) -lm
 FHELIB = ../libs/HElib/fhe.a
 
+all: paramsGenerator dataEncryptor dataProcessor
+
 paramsGenerator: paramsGenerator.cpp
 	$(CC) $(CFLAGS) -o paramsGenerator.run $< $(FHELIB) $(LDLIBS)
 
@@ -13,5 +15,5 @@ dataEncryptor: dataEncryptor.cpp
 dataProcessor: dataProcessor.cpp
 	$(CC) $(CFLAGS) -o dataProcessor.run $< $(FHELIB) $(LDLIBS)
 
-clean:s
+clean:
 	rm *.run *.key *.context
