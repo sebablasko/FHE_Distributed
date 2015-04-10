@@ -7,7 +7,7 @@
 using namespace std;
 
 #define PLAINDATA_FILEPATH "../data/data.txt"
-#define CIPHERDATA_FILEPATH "../data/cipherdata.txt"
+#define CIPHERDATA_FILEPATH "../data/data.cipher"
 
 int main() {
     

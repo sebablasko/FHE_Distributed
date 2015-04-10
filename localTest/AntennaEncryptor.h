@@ -3,7 +3,7 @@
 #include <map>
 #include <sstream>
 
-#define CTXT_FILE "result_cipher"
+#define PROCESSED_RESULT_CTXT_FILE "../data/processed.cipher"
 #define CONTEXT_FILE "context.context"
 #define PUBLIC_KEY_FILE "public.key"
 #define HASH_FILES_PATH "../data/"
@@ -194,7 +194,7 @@ class AntennaEncryptor
     antenna_plaintext.encode(antenna_vector);
     this->encrypted_array.encrypt(antenna_cipher, this->public_key, antenna_plaintext);
     
-    if (DEBUG > 1) std::cout << "AntennaEncryptor: EncryptAntenna: Done" << std::endl;
+    if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptAntenna: Done" << std::endl;
 
     return antenna_cipher;
   }
@@ -220,7 +220,7 @@ class AntennaEncryptor
     zone_plaintext.encode(zone_vector);
     this->encrypted_array.encrypt(zone_cipher, this->public_key, zone_plaintext);
     
-    if (DEBUG > 1) std::cout << "AntennaEncryptor: EncryptZone: Done" << std::endl;
+    if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptZone: Done" << std::endl;
 
     return zone_cipher;
 
@@ -237,7 +237,7 @@ class AntennaEncryptor
   void CtxtToFile(Ctxt cipher)
   {
     ofstream cipher_file;
-    cipher_file.open(CTXT_FILE);
+    cipher_file.open(PROCESSED_RESULT_CTXT_FILE);
     cipher_file << cipher ;
     cipher_file.close();
   }
