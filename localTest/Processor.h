@@ -1,6 +1,15 @@
+#include <sstream>
+#include <string>
+#include <iostream>
+#include <fstream>
 #include "AntennaEncryptor.h"
+
 #define VERBOSE 1
 #define MAX_ADDITIONS 8170 
+#define CIPHERDATA_FILEPATH "../data/data.cipher"
+#define ValuesPerRecord 7
+
+using namespace std;
 
 class Processor{  
 
@@ -23,10 +32,16 @@ class Processor{
   }
 
   //void CountAntenna(mongo::auto_ptr<mongo::DBClientCursor> cursor, int rotation, AntennaEncryptor &antenna_encryptor, EncryptedArray &encrypted_array)
-  void CountAntenna(int rotation, AntennaEncryptor &antenna_encryptor, EncryptedArray &encrypted_array)
+  Ctxt CountAntenna(int rotation, AntennaEncryptor &antenna_encryptor, EncryptedArray &encrypted_array, string *record)
   {
-    if (VERBOSE) std::cout << "Processor.h: CountAntenna ..." << std::endl;
-  
+    if (VERBOSE) std::cout << "Processor.h: CountAntenna timestamp:" << record[1] << std::endl;
+    Ctxt antenna_cipher = antenna_encryptor.CtxtFromString(record[4]);
+    Ctxt zone_cipher = antenna_encryptor.CtxtFromString(record[5]);
+    //rotate zone cipher: 
+    encrypted_array.rotate(zone_cipher, rotation);
+    //multiply ciphers: 
+    antenna_cipher.multiplyBy(zone_cipher);
+    return antenna_cipher;
   }
 
 public:
@@ -39,7 +54,7 @@ public:
 
     if (VERBOSE) std::cout << "Processor.h: Process: mnc:" << mnc << ", lac:" << lac << ", cid:" << cid << std::endl;
 
-    int zone_index, rotation;
+    int zone_index, rotation, zone_p_index;
     
     //Initialize objects
     AntennaEncryptor antenna_encryptor(mnc);
@@ -51,15 +66,78 @@ public:
     zone_index = antenna_encryptor.get_zone_code(lac, cid);
     rotation = ZRotation(antenna_index, zone_index, encrypted_array.size());
 
-    if(VERBOSE) std::cout << "Processor.h: Process: Using mnc:" << mnc << ", zone:" << zone_index << std::endl;
+    zone_p_index = antenna_encryptor.get_pzone_code(lac, cid);
 
-    //Obtain records from database
-    //mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("adkevents.encrypted_fhe_events",  BSON("mnc" << mnc << "zone" << zone_index), 100);
-    //mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("adkevents.encrypted_fhe_events",  BSON("mnc" << mnc << "zone" << zone_index));
+    if(VERBOSE) std::cout << "Processor.h: Process: Using mnc:" << mnc << ", publicZone:" << zone_p_index << std::endl;
 
-    //POR DEFAULT; SE CONSIDERARÁ QUE EL ARCHIVO CONTIENE VALORES VALIDOS DEL RESULTADO DE UNA QUERY: mnc y zone válidos
+    // Collect data from the cipherDataFile and process it
+    // 0.-Create variables to store interpreted data
 
-    //Call the count function.
-    //CountAntenna(cursor, rotation, antenna_encryptor, encrypted_array);
+    // 1.-Open the source data file
+    ifstream file(CIPHERDATA_FILEPATH);
+    string line;
+
+    // 2.-ForEach record in the cipherdata file...
+    while (std::getline(file, line, ';'))
+    {
+      // 3.-locate the first matched record
+      string record[ValuesPerRecord];
+      stringstream values(line);
+      int i;
+
+      for(i = 0; i < ValuesPerRecord; i++)
+      {
+        getline(values, record[i], ',');
+      }
+      // Now the record store:
+      //  [0]: id
+      //  [1]: timestamp
+      //  [2]: network_type
+      //  [3]: mnc
+      //  [4]: antenna (encrypted)
+      //  [5]: privzone (encrypted)
+      //  [6]: zone (publicZone in plain text) 
+
+      // 4.-Process Each Record
+      // if(atoi(record[3].c_str())==mnc && atoi(record[6].c_str())==zone_p_index)
+      // {
+      //   if(VERBOSE) std::cout << "Record utilizable" << std::endl;
+      //   if(total==NULL){
+      //     Ctxt val = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
+      //     total = &val;
+      //   }else{
+      //     Ctxt val2 = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
+      //     (*total) += val2;
+      //   }
+      // }
+      if(atoi(record[3].c_str())==mnc && atoi(record[6].c_str())==zone_p_index)
+      {
+        if(VERBOSE) std::cout << "First record Matched!" << std::endl;
+
+          Ctxt total = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
+
+          // 4.-Process Each Record and find the anothers records to match
+          while (std::getline(file, line, ';'))
+          {
+            string record2[ValuesPerRecord];
+            stringstream values2(line);
+
+            for(i = 0; i < ValuesPerRecord; i++)
+              getline(values2, record2[i], ',');
+
+            if(atoi(record2[3].c_str())==mnc && atoi(record2[6].c_str())==zone_p_index)
+            {
+              if(VERBOSE) std::cout << "a new match!" << std::endl;
+              total += CountAntenna(rotation, antenna_encryptor, encrypted_array, record2);  
+            }
+            
+          }
+          // 5.- Save the processed data
+          antenna_encryptor.CtxtToFile(total);
+          break;
+      }else{
+        continue;
+      }
+    }
   }
 };

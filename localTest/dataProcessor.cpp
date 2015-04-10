@@ -6,9 +6,6 @@
 
 using namespace std;
 
-#define CIPHERDATA_FILEPATH "../data/cipherdata.txt"
-#define ValuesPerRecord 7
-
 int main()
 {
   /*
@@ -41,7 +38,11 @@ int main()
   mnc = 1;
   lac = 13527;
   cid = 85696527;
+  //cid = 85696524;
+  //cid = 33186528;
 
   processor.Process(mnc, lac, cid, antenna_index);
+
+  std::cout << "antenna_index value: " << antenna_index << std::endl;
 
 }
