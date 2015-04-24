@@ -18,10 +18,10 @@ To use its necesary to have pre-installed:
 2. NTL (v6.1 or higher, we include v6.2)
   1. Navigate to /libs/ntl
   2. Uncompress and cd into the directory ntl-6.2.0/src
-  3. On the command line: `./configure NTL_GMP_LIP=on &  make & make & sudo make install`
+  3. On the command line: `./configure NTL_GMP_LIP=on & make & sudo make install`
   4. This should install NTL into /usr/local
 
 3. Compile HElib
   1. Navigate to libs/HElib at this project
   2. On the command line: `make`
-  3. It will output the static library in file fhe.a
+  3. It will output the static library in file **fhe.a**
