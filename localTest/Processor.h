@@ -77,6 +77,8 @@ public:
     ifstream file(CIPHERDATA_FILEPATH);
     string line;
 
+    int checks = 0;
+
     // 2.-ForEach record in the cipherdata file...
     while (std::getline(file, line, ';'))
     {
@@ -84,6 +86,8 @@ public:
       string record[ValuesPerRecord];
       stringstream values(line);
       int i;
+
+      if(VERBOSE) std::cout << "Checking line " << ++checks << std::endl;
 
       for(i = 0; i < ValuesPerRecord; i++)
       {
@@ -112,7 +116,7 @@ public:
       // }
       if(atoi(record[3].c_str())==mnc && atoi(record[6].c_str())==zone_p_index)
       {
-        if(VERBOSE) std::cout << "First record Matched!" << std::endl;
+        if(VERBOSE) std::cout << "\tFirst record Matched!" << std::endl;
 
           Ctxt total = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
 
@@ -122,13 +126,17 @@ public:
             string record2[ValuesPerRecord];
             stringstream values2(line);
 
+            if(VERBOSE) std::cout << "Checking line " << ++checks << std::endl;
+
             for(i = 0; i < ValuesPerRecord; i++)
               getline(values2, record2[i], ',');
 
             if(atoi(record2[3].c_str())==mnc && atoi(record2[6].c_str())==zone_p_index)
             {
-              if(VERBOSE) std::cout << "a new match!" << std::endl;
+              if(VERBOSE) std::cout << "\tA new match!" << std::endl;
               total += CountAntenna(rotation, antenna_encryptor, encrypted_array, record2);  
+            }else{
+              if(VERBOSE) std::cout << "\tNo match" << std::endl;
             }
             
           }
@@ -136,6 +144,7 @@ public:
           antenna_encryptor.CtxtToFile(total);
           break;
       }else{
+        if(VERBOSE) std::cout << "\tNo match" << std::endl;
         continue;
       }
     }
