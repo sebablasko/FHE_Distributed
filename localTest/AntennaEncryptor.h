@@ -7,7 +7,7 @@
 #define CONTEXT_FILE "context.context"
 #define PUBLIC_KEY_FILE "public.key"
 #define HASH_FILES_PATH "../data/"
-#define DEBUG 1
+#define DEBUG 2
 
 class AntennaEncryptor
 {
@@ -195,6 +195,7 @@ class AntennaEncryptor
     this->encrypted_array.encrypt(antenna_cipher, this->public_key, antenna_plaintext);
     
     if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptAntenna: Done" << std::endl;
+    if (DEBUG > 1) antenna_plaintext.print(cerr);
 
     return antenna_cipher;
   }
@@ -221,6 +222,7 @@ class AntennaEncryptor
     this->encrypted_array.encrypt(zone_cipher, this->public_key, zone_plaintext);
     
     if (DEBUG > 0) std::cout << "AntennaEncryptor: EncryptZone: Done" << std::endl;
+    if (DEBUG > 1) zone_plaintext.print(cerr);
 
     return zone_cipher;
 
