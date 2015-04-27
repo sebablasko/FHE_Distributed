@@ -18,5 +18,8 @@ dataProcessor: dataProcessor.cpp
 dataDecryptor: dataDecryptor.cpp
 	$(CC) $(CFLAGS) -o dataDecryptor.run $< $(FHELIB) $(LDLIBS)
 
+wea: prueba.cpp
+	$(CC) $(CFLAGS) -o wea.run $< $(FHELIB) $(LDLIBS)	
+
 clean:
 	rm *.run *.key *.context
