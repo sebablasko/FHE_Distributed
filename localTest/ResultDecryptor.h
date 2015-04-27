@@ -115,7 +115,7 @@ public:
     Ctxt cipher(public_key);
     //This first stream corresponds to the antenna encryption.
     cipher_file >> cipher;
-    if (DEBUG > 0) std::cout << "cipher_antenna_encryption: "<< cipher << std::endl;
+    if (DEBUG > 1) std::cout << "cipher_antenna_encryption: "<< cipher << std::endl;
     // The second stream corresponds to the zone, but we don't need it.
     cipher_file.close();
     return cipher; 
