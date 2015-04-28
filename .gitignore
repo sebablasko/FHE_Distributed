@@ -31,3 +31,4 @@
 *.key
 *.context
 *.run
+*.cipher
