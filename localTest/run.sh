@@ -16,7 +16,9 @@ echo "Encryption Process Done"
 echo
 
 echo "Begin Homomorphic Processing..."
-time ./dataProcessor.run
+time ./dataProcessor.run 1 13527 85696527
+#time ./dataProcessor.run 1 13527 85696524
+#time ./dataProcessor.run 1 13527 33186528
 echo "Homomorphic Processing Done"
 echo
 
