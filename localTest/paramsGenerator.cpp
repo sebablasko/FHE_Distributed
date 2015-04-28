@@ -14,7 +14,7 @@
 
 #define AUTO_DEFAULT_MODE 1
 #define AUTO_P 8179
-#define AUTO_L 2
+#define AUTO_L 4
 #define AUTO_K 112
 
 #define PATHFILE_SECRETKEY "secret.key"
