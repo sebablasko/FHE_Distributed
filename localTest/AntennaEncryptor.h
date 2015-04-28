@@ -7,7 +7,7 @@
 #define CONTEXT_FILE "context.context"
 #define PUBLIC_KEY_FILE "public.key"
 #define HASH_FILES_PATH "../data/"
-#define DEBUG 2
+#define DEBUG 1
 
 class AntennaEncryptor
 {
