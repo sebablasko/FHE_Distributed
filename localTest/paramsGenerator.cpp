@@ -57,7 +57,7 @@ void generate_keys(long p, long L, long k){
 
   cout << "Constructing modChain... ";
   buildModChain(context, L, c);
-  cout << context ;
+  //cout << context ;
   cout << " Done " << endl;
 
 
