@@ -102,25 +102,14 @@ public:
       //  [5]: privzone (encrypted)
       //  [6]: zone (publicZone in plain text) 
 
-      // 4.-Process Each Record
-      // if(atoi(record[3].c_str())==mnc && atoi(record[6].c_str())==zone_p_index)
-      // {
-      //   if(VERBOSE) std::cout << "Record utilizable" << std::endl;
-      //   if(total==NULL){
-      //     Ctxt val = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
-      //     total = &val;
-      //   }else{
-      //     Ctxt val2 = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
-      //     (*total) += val2;
-      //   }
-      // }
+      // 4.a-Process Each Record...
       if(atoi(record[3].c_str())==mnc && atoi(record[6].c_str())==zone_p_index)
       {
         if(VERBOSE) std::cout << "\tFirst record Matched!" << std::endl;
 
           Ctxt total = CountAntenna(rotation, antenna_encryptor, encrypted_array, record);
 
-          // 4.-Process Each Record and find the anothers records to match
+          // 4.b-...and find the anothers records to match
           while (std::getline(file, line, ';'))
           {
             string record2[ValuesPerRecord];
@@ -133,7 +122,8 @@ public:
 
             if(atoi(record2[3].c_str())==mnc && atoi(record2[6].c_str())==zone_p_index)
             {
-              if(VERBOSE) std::cout << "\tA new match!" << std::endl;
+              if(VERBOSE) std::cout << "\t\tA new match!" << std::endl;
+              // 4.c-...operating all the selected records, storing the result in total variable
               total += CountAntenna(rotation, antenna_encryptor, encrypted_array, record2);  
             }else{
               if(VERBOSE) std::cout << "\tNo match" << std::endl;

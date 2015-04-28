@@ -6,31 +6,8 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
-  /*
-  // Open the source data file
-  ifstream file(CIPHERDATA_FILEPATH);
-  string line;
-
-  // ForEach record in the cipherdata file
-  while (std::getline(file, line, ';'))
-  {
-    string record[ValuesPerRecord];
-    stringstream values(line);
-    int i;
-
-    for(i = 0; i < ValuesPerRecord; i++)
-    {
-      getline(values, record[i], ',');
-    }
-
-    // Process Each Record
-    std::cout << record[0] << std::endl;
-  }
-
-  */
-
   int mnc, lac, cid, antenna_index;
   Processor processor;
 
@@ -41,8 +18,25 @@ int main()
   //cid = 85696524;
   //cid = 33186528;
 
-  processor.Process(mnc, lac, cid, antenna_index);
+  if(argc == 4)
+  {
+    mnc = atoi(argv[1]);
+    lac = atoi(argv[2]);
+    cid = atoi(argv[3]);
+  }
+  else if (argc != 1)
+  {
+    std::cout << "Error, use ./dataProcessor mnc lac cid" << std::endl;
+    return 1;
+  }
 
+  std::cout << "Starting processing data: " << std::endl;
+  std::cout << "\tmnc: \t" << mnc << std::endl;
+  std::cout << "\tlac: \t" << lac << std::endl;
+  std::cout << "\tcid: \t" << cid << std::endl;
+
+  processor.Process(mnc, lac, cid, antenna_index);
   std::cout << "antenna_index value: " << antenna_index << std::endl;
 
+  return 0;
 }
