@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     }
     
   }
-  /* Instead of reporting ‘--verbose’
+  /* Instead of reporting ‘--verbose.’
    and ‘--brief’ as they are encountered,
    we report the final status resulting from them. */
   if (verbose_flag)
