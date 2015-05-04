@@ -6,7 +6,7 @@
 
 #define VERBOSE 1
 #define MAX_ADDITIONS 8170 
-#define CIPHERDATA_FILEPATH "../data/data.cipher"
+/* #define CIPHERDATA_FILEPATH "../data/data.cipher" */
 #define ValuesPerRecord 7
 
 using namespace std;
@@ -45,9 +45,13 @@ class Processor{
   }
 
 public:
-  Processor()
+
+  char* CIPHERDATA_FILEPATH;
+
+  Processor(char* baseFileCipherData)
   {
-    if (VERBOSE) std::cout << "Processor.h: Processor" << std::endl;
+    CIPHERDATA_FILEPATH = baseFileCipherData;
+    if (VERBOSE) std::cout << "Processor.h: Processor to work with: " << CIPHERDATA_FILEPATH << std::endl;
     
     //TODO: Check for the params have to be created at this stage
   }

@@ -13,6 +13,7 @@ int main(int argc, char **argv)
 {
   /* Variables for data input processing */
   int mnc = -1, lac = -1, cid = -1, antenna_index;
+  char* fileCipherData;
    
   while(1)
   {
@@ -24,6 +25,7 @@ int main(int argc, char **argv)
       {"mnc",  required_argument, 0, 'm'},
       {"lac",  required_argument, 0, 'l'},
       {"cid",    required_argument, 0, 'c'},
+      {"file",    required_argument, 0, 'f'},
       /* The close for Options */
       {0, 0, 0, 0}
     };
@@ -64,6 +66,11 @@ int main(int argc, char **argv)
         cid = strtod(optarg, NULL);
         /* printf ("option --cid with value %d\n", cid); */
         break;
+        
+      case 'f':
+        fileCipherData = optarg;
+        /* printf ("option --file with value %s\n", fileCipherData); */
+        break;
     
       default:
         abort ();
@@ -92,6 +99,11 @@ int main(int argc, char **argv)
     printf("Error, must explicit mnc, lac and cid code\n");
     return 1;
   }
+  else if(!fileCipherData)
+  {
+    printf("Error, must explicit file to process\n");
+    return 1;
+  }
   
   /* Everything Ok, let's start the processing */
   printf("Launching the process module with:\n");
@@ -99,7 +111,7 @@ int main(int argc, char **argv)
   printf("\tlac:\t%d\n",lac);
   printf("\tcid:\t%d\n",cid);
   
-  Processor processor;
+  Processor processor(fileCipherData);
   processor.Process(mnc, lac, cid, antenna_index);
   std::cout << "antenna_index value: " << antenna_index << std::endl;
   

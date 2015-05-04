@@ -16,7 +16,7 @@ echo "Encryption Process Done"
 echo
 
 echo "Begin Homomorphic Processing..."
-time ./dataProcessor.run --mnc 1 --lac 13527 --cid 85696527
+time ./dataProcessor.run --mnc 1 --lac 13527 --cid 85696527 --file ../data/data.cipher
 #time ./dataProcessor.run --mnc 1 --lac 13527 --cid 85696524
 #time ./dataProcessor.run --mnc 1 --lac 13527 --cid 33186528 
 echo "Homomorphic Processing Done"
