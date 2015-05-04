@@ -66,10 +66,6 @@ int main(int argc, char **argv)
         printf ("option --cid with value %d\n", cid);
         break;
     
-      case '?':
-        /* getopt_long already printed an error message. */
-        break;
-    
       default:
         abort ();
     }
