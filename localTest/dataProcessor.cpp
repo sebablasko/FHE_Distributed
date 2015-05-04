@@ -7,7 +7,7 @@
 
 using namespace std;
 
-static int verbose_flag;
+static int verbose_flag;    //TODO: set the utility of the verbose flag
 
 int main(int argc, char **argv)
 {
