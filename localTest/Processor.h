@@ -48,6 +48,8 @@ public:
   Processor()
   {
     if (VERBOSE) std::cout << "Processor.h: Processor" << std::endl;
+    
+    //TODO: Check for the params have to be created at this stage
   }
 
   void Process(int mnc, int lac, int cid, int &antenna_index){
