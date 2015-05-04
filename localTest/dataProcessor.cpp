@@ -11,9 +11,9 @@ static int verbose_flag;
 
 int main(int argc, char **argv)
 {
+  /* Variables for data input processing */
   int mnc = -1, lac = -1, cid = -1, antenna_index;
-  Processor processor;
-  
+   
   while(1)
   {
     static struct option long_options[] = 
@@ -29,8 +29,7 @@ int main(int argc, char **argv)
     };
     
     /* getopt_long stores the option index here. */
-    int option_index = 0;
-    int opt;
+    int opt = -1, option_index = 0;
     
     opt = getopt_long (argc, argv, "m:l:c:", long_options, &option_index);
     
@@ -53,17 +52,17 @@ int main(int argc, char **argv)
       
       case 'm':
         mnc = strtod(optarg, NULL);
-        printf ("option --mnc with value %d\n", mnc);
+        /* printf ("option --mnc with value %d\n", mnc); */
         break;
     
       case 'l':
         lac = strtod(optarg, NULL);
-        printf ("option --lac with value %d\n", lac);
+        /* printf ("option --lac with value %d\n", lac); */
         break;
     
       case 'c':
         cid = strtod(optarg, NULL);
-        printf ("option --cid with value %d\n", cid);
+        /* printf ("option --cid with value %d\n", cid); */
         break;
     
       default:
@@ -94,7 +93,13 @@ int main(int argc, char **argv)
     return 1;
   }
   
-  /* Everything Ok, start the processing */
+  /* Everything Ok, let's start the processing */
+  printf("Launching the process module with:\n");
+  printf("\tmnc:\t%d\n",mnc);
+  printf("\tlac:\t%d\n",lac);
+  printf("\tcid:\t%d\n",cid);
+  
+  Processor processor;
   processor.Process(mnc, lac, cid, antenna_index);
   std::cout << "antenna_index value: " << antenna_index << std::endl;
   
