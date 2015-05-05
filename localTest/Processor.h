@@ -4,7 +4,7 @@
 #include <fstream>
 #include "AntennaEncryptor.h"
 
-#define VERBOSE 1
+#define VERBOSE 0
 #define MAX_ADDITIONS 8170 
 #define ValuesPerRecord 7
 
