@@ -110,6 +110,7 @@ int main(int argc, char **argv)
   printf("\tmnc:\t%d\n",mnc);
   printf("\tlac:\t%d\n",lac);
   printf("\tcid:\t%d\n",cid);
+  printf("\tfile:\t%s\n",fileCipherData);
   
   Processor processor(fileCipherData);
   processor.Process(mnc, lac, cid, antenna_index);
