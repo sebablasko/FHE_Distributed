@@ -38,10 +38,10 @@ int main(int argc, char **argv)
             /* If this option set a flag, do nothing else now. */
             if (long_options[option_index].flag != 0)
               break;
-            if (verbose_flag) printf ("option %s", long_options[option_index].name);
+            printf("option %s", long_options[option_index].name);
             if (optarg)
-              if (verbose_flag) printf (" with arg %s", optarg);
-            if (verbose_flag) printf ("\n");
+              printf(" with arg %s", optarg);
+            printf("\n");
             break;    
           
           case 'a':

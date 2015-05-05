@@ -7,7 +7,7 @@
 
 using namespace std;
 
-static int verbose_flag;    //TODO: set the utility of the verbose flag
+static int verbose_flag;
 
 int main(int argc, char **argv)
 {
@@ -54,22 +54,22 @@ int main(int argc, char **argv)
       
       case 'm':
         mnc = strtod(optarg, NULL);
-        /* printf ("option --mnc with value %d\n", mnc); */
+        if (verbose_flag) printf ("option --mnc with value %d\n", mnc);
         break;
     
       case 'l':
         lac = strtod(optarg, NULL);
-        /* printf ("option --lac with value %d\n", lac); */
+        if (verbose_flag) printf ("option --lac with value %d\n", lac);
         break;
     
       case 'c':
         cid = strtod(optarg, NULL);
-        /* printf ("option --cid with value %d\n", cid); */
+        if (verbose_flag) printf ("option --cid with value %d\n", cid);
         break;
         
       case 'f':
         fileCipherData = optarg;
-        /* printf ("option --file with value %s\n", fileCipherData); */
+        if (verbose_flag) printf ("option --file with value %s\n", fileCipherData);
         break;
     
       default:
@@ -106,11 +106,14 @@ int main(int argc, char **argv)
   }
   
   /* Everything Ok, let's start the processing */
-  printf("Launching the process module with:\n");
-  printf("\tmnc:\t%d\n",mnc);
-  printf("\tlac:\t%d\n",lac);
-  printf("\tcid:\t%d\n",cid);
-  printf("\tfile:\t%s\n",fileCipherData);
+  if (verbose_flag)
+  {
+    printf("Launching the process module with:\n");
+    printf("\tmnc:\t%d\n",mnc);
+    printf("\tlac:\t%d\n",lac);
+    printf("\tcid:\t%d\n",cid);
+    printf("\tfile:\t%s\n",fileCipherData); 
+  }
   
   Processor processor(fileCipherData);
   processor.Process(mnc, lac, cid, antenna_index);
