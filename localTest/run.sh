@@ -23,6 +23,6 @@ echo "Homomorphic Processing Done"
 echo
 
 echo "Begin Decryption Processing..."
-time ./dataDecryptor.run
+time ./dataDecryptor.run  --file ../data/processed.cipher
 echo "Decryption Processing Done"
 echo
