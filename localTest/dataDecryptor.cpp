@@ -38,20 +38,20 @@ int main(int argc, char **argv)
             /* If this option set a flag, do nothing else now. */
             if (long_options[option_index].flag != 0)
               break;
-            printf ("option %s", long_options[option_index].name);
+            if (verbose_flag) printf ("option %s", long_options[option_index].name);
             if (optarg)
-              printf (" with arg %s", optarg);
-            printf ("\n");
+              if (verbose_flag) printf (" with arg %s", optarg);
+            if (verbose_flag) printf ("\n");
             break;    
           
           case 'a':
             antenna_index = strtod(optarg, NULL);
-            /* printf ("option --antenna_index with value %d\n", mnc); */
+            if (verbose_flag) printf ("option --antenna_index with value %d\n", antenna_index);
             break;
             
           case 'f':
             fileProcessedData = optarg;
-            /* printf ("option --file with value %s\n", fileProcessedData); */
+            if (verbose_flag) printf ("option --file with value %s\n", fileProcessedData);
             break;
         
           default:
@@ -80,10 +80,13 @@ int main(int argc, char **argv)
     }
     
     /* Everything Ok, let's start the processing */
-    printf("Launching the decrypt module with:\n");
-    printf("\tantenna_index:\t%d\n",antenna_index);
-    printf("\tSource File:\t%s\n",fileProcessedData);
-    
+    if (verbose_flag)
+    {
+        printf("Launching the decrypt module with:\n");
+        printf("\tantenna_index:\t%d\n",antenna_index);
+        printf("\tSource File:\t%s\n",fileProcessedData);
+    }
+
     /* Build ResultDecryptor */
     /* Build ResultDecryptor Use the standart construction, restoring the parameters already builded */
     ResultDecryptor result_decryptor;

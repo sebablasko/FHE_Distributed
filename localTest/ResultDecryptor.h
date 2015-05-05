@@ -15,7 +15,7 @@ a file that contains it.
 #define CONTEXT_FILE "context.context"
 #define SECRET_KEY_FILE "secret.key"
 #define PUBLIC_KEY_FILE "public.key"
-#define VERBOSE 1
+#define VERBOSE 0
 #define DEBUG 1
 
 class ResultDecryptor{
